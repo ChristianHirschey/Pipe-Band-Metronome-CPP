@@ -3,15 +3,17 @@
 #include <chrono>
 #include <string>
 #include <Windows.h>
+#pragma comment(lib, "Winmm.lib")
+
 
 using namespace std;
 
 void playMetronome(int bpm, int duration, string output) {
     chrono::milliseconds interval(static_cast<int>(60000.0 / (bpm + 1)));//the function ends up running about 1 bpm slow due to the time it takes to call PlaySound() so the input bpm gets incremented prior to dividing for the interval
-
+    const wchar_t* path = L"C:\\Users\\Chris\\source\\repos\\Console Metronome\\assets\\metronome.wav";
     for (int i = 0; i < duration; i++) {
         cout << output;
-        PlaySound("C:\\Users\\Chris\\source\\repos\\Console Metronome\\assets\\metronome.wav", NULL, SND_FILENAME | SND_ASYNC);
+        PlaySound(path, NULL, SND_FILENAME | SND_ASYNC);
         this_thread::sleep_for(interval);
     }
 }
